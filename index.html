@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Varun Dev Portfolio</title>
+<meta name="description" content="Varun Dev, full stack developer building AI-powered products with Java, Spring Boot, React and Python. B.Tech IT 2027, Pune.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky top bar, hero panel with a live neural-network canvas, then interactive sections (project filter, AI lab, skill explorer). */
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --ink:#101C1B; --muted:#51615F; --line:#D5DEDC;
+  --accent:#0B6B58; --accent-ink:#FFFFFF; --tint:#DDEFEA; --warn:#B4530A; --bad:#B3261E; --ok:#0B6B58;
+  --display:'Bricolage Grotesque','Inter',system-ui,sans-serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0D1413; --surface:#141E1D; --ink:#E7F0EE; --muted:#95A8A5; --line:#263635;
+  --accent:#5ED0B2; --accent-ink:#06201A; --tint:#173430; --warn:#F0A35E; --bad:#FF8A80; --ok:#5ED0B2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D1413; --surface:#141E1D; --ink:#E7F0EE; --muted:#95A8A5; --line:#263635;
+  --accent:#5ED0B2; --accent-ink:#06201A; --tint:#173430; --warn:#F0A35E; --bad:#FF8A80; --ok:#5ED0B2; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--body);
+  padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.w{max-width:1040px;margin:0 auto}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;flex-wrap:wrap;padding-block:6px}
+.brand{font:700 1.1rem var(--display);text-decoration:none;color:var(--ink)}
+nav{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+nav a{font:500 .78rem var(--mono);color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent)}
+.tog{font:500 .75rem var(--mono);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.hero{position:relative;overflow:hidden;margin-top:28px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:clamp(28px,6vw,64px) clamp(20px,5vw,56px)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero .in{position:relative;display:flex;flex-direction:column;gap:18px;max-width:640px;pointer-events:none}
+.hero .in a,.hero .in button{pointer-events:auto}
+.eyebrow{font:500 .78rem var(--mono);color:var(--accent);margin:0}
+.hero h1{font:700 clamp(2.4rem,7vw,4.4rem)/1 var(--display);letter-spacing:-.03em;margin:0}
+.type{font:500 clamp(1.1rem,2.6vw,1.5rem)/1.3 var(--mono);margin:0;min-height:1.6em}
+.type .caret{display:inline-block;width:.55ch;height:1.05em;background:var(--accent);vertical-align:-.15em;margin-left:2px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero p.sub{margin:0;max-width:52ch;color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:11px 18px;border-radius:6px;font:600 .9rem var(--body);text-decoration:none;border:1px solid var(--accent);cursor:pointer;background:none}
+.btn.p{background:var(--accent);color:var(--accent-ink)}
+.btn.s{color:var(--accent)}
+.status{display:inline-flex;gap:10px;align-items:center;background:var(--tint);color:var(--ink);padding:7px 14px;border-radius:999px;font:500 .78rem var(--mono);align-self:flex-start}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--accent);display:block;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+section{padding-top:72px}
+.label{font:500 .75rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+h2{font:700 clamp(1.6rem,3.6vw,2.4rem)/1.15 var(--display);letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance;max-width:24ch}
+p{margin:0 0 14px;max-width:65ch}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.pill{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.pill h3{font:700 1.15rem var(--display);margin:0 0 6px}
+.pill p{color:var(--muted);margin:0;font-size:.95rem}
+.pill .tag{font:500 .7rem var(--mono);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:8px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.f{font:500 .78rem var(--mono);padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.f[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.card h3{font:700 1.25rem/1.2 var(--display);margin:0}
+.card .kind{font:500 .72rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.card ul{margin:0;padding-left:1.1rem}
+.card li{margin-bottom:4px;font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.chips span{font:500 .72rem var(--mono);border:1px solid var(--line);border-radius:4px;padding:3px 8px;color:var(--muted)}
+.lab{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.panel h3{font:700 1.2rem var(--display);margin:0}
+.note{font:400 .78rem/1.5 var(--mono);color:var(--muted);margin:0}
+textarea{width:100%;min-height:96px;resize:vertical;font:400 .95rem/1.5 var(--body);padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.samples{display:flex;flex-wrap:wrap;gap:6px}
+.samples button{font:500 .72rem var(--mono);border:1px dashed var(--line);background:none;color:var(--muted);border-radius:6px;padding:4px 9px;cursor:pointer}
+.samples button:hover{color:var(--accent);border-color:var(--accent)}
+.meter{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--ok);transition:width .35s,background .35s}
+.verdict{font:600 .95rem var(--mono);margin:0}
+.out{font-size:.95rem;min-height:2.6em;margin:0}
+mark{background:color-mix(in srgb,var(--warn) 30%,transparent);color:inherit;border-radius:3px;padding:0 2px}
+.flow{display:flex;flex-wrap:wrap;gap:8px}
+.node{font:500 .78rem var(--mono);padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.node[aria-pressed="true"]{border-color:var(--accent);background:var(--tint)}
+.detail{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px;min-height:5.5em}
+.detail b{font:600 .95rem var(--display)}
+.detail p{margin:4px 0 0;font-size:.93rem;color:var(--muted)}
+.skillwrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
+.chipgrid{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
+.chip{font:500 .82rem var(--mono);padding:8px 13px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .15s,transform .15s}
+.chip:hover{border-color:var(--accent);transform:translateY(-2px)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.interest{margin-top:18px;color:var(--muted);font-size:.95rem}
+.row{display:grid;grid-template-columns:130px minmax(0,1fr);gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row .when{font:500 .8rem var(--mono);color:var(--muted)}
+.row b{font-weight:600}
+.row .sub{display:block;color:var(--muted);font-size:.92rem}
+.contact{display:flex;flex-direction:column;gap:8px;font:500 .95rem var(--mono)}
+.copy{font:500 .75rem var(--mono);margin-left:8px;background:none;color:var(--accent);border:1px solid var(--line);border-radius:4px;padding:2px 8px;cursor:pointer}
+footer{margin-top:72px;padding-block:20px 32px;border-top:1px solid var(--line);color:var(--muted);font:400 .78rem var(--mono)}
+@media (max-width:760px){
+  .skillwrap{grid-template-columns:minmax(0,1fr)}
+  .row{grid-template-columns:minmax(0,1fr);gap:2px}
+  .projects,.lab{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.status i,.caret{animation:none}.card,.chip{transition:none}.card:hover,.chip:hover{transform:none}}
+</style>
+
+</head>
+<body>
+<header>
+  <div class="w">
+    <a class="brand" href="#top">Varun Dev</a>
+    <nav aria-label="Sections">
+      <a href="#about">about</a><a href="#projects">projects</a><a href="#lab">ai lab</a><a href="#skills">skills</a><a href="#education">education</a><a href="#contact">contact</a>
+      <button class="tog" id="theme" type="button" aria-label="Toggle light and dark theme">theme</button>
+    </nav>
+  </div>
+</header>
+
+<div class="w" id="top">
+  <div class="hero">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="in">
+      <p class="eyebrow">Hi, I'm</p>
+      <h1>Varun Dev</h1>
+      <p class="type" aria-live="off"><span id="role">Full Stack Developer</span><span class="caret"></span></p>
+      <p class="sub">I build web products end to end: Spring Boot APIs, React interfaces, and the machine learning and chatbot features that make them smarter. B.Tech IT, class of 2027, Pune.</p>
+      <span class="status"><i></i>Open to 2027 internships and graduate roles</span>
+      <div class="cta">
+        <a class="btn p" href="#projects">Explore my work</a>
+        <a class="btn s" href="resume.pdf">Download resume</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <p class="label">What I do</p>
+    <h2>One developer across the whole stack, with AI built in.</h2>
+    <div class="three">
+      <div class="pill"><span class="tag">Frontend</span><h3>Responsive interfaces</h3><p>HTML, CSS, JavaScript and React screens that call REST APIs and handle real-time updates.</p></div>
+      <div class="pill"><span class="tag">Backend</span><h3>Secure services</h3><p>Java and Spring Boot with layered design, Spring Security, JWT auth, MySQL and Docker.</p></div>
+      <div class="pill"><span class="tag">AI / ML</span><h3>Applied intelligence</h3><p>NLP classification with DistilBERT and scikit-learn, and AI chatbot features inside live applications.</p></div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <p class="label">Projects</p>
+    <h2>Things I have built</h2>
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button class="f" type="button" data-f="all" aria-pressed="true">All</button>
+      <button class="f" type="button" data-f="fullstack" aria-pressed="false">Full stack</button>
+      <button class="f" type="button" data-f="backend" aria-pressed="false">Backend</button>
+      <button class="f" type="button" data-f="ai" aria-pressed="false">AI / ML</button>
+    </div>
+    <div class="projects" id="plist">
+      <article class="card" data-tags="fullstack backend">
+        <span class="kind">Full stack · Automation</span>
+        <h3>FlowForge AI</h3>
+        <p style="margin:0;color:var(--muted)">Developer workflow automation platform.</p>
+        <ul>
+          <li>Modular Spring Boot application with JWT authentication and Spring Security on the REST endpoints.</li>
+          <li>Workflow module split into Entity, Repository, DTO, Service and Controller layers.</li>
+          <li>Frontend and backend connected through the REST API.</li>
+        </ul>
+        <div class="chips"><span>Java</span><span>Spring Boot</span><span>REST</span><span>JWT</span><span>MySQL</span><span>Docker</span></div>
+      </article>
+      <article class="card" data-tags="fullstack backend ai">
+        <span class="kind">Full stack · Real-time · AI</span>
+        <h3>AI-Powered Chat Application</h3>
+        <p style="margin:0;color:var(--muted)">Live chat with a built-in AI chatbot.</p>
+        <ul>
+          <li>Real-time messaging over WebSocket on a Spring Boot backend.</li>
+          <li>AI chatbot integrated into the conversation flow.</li>
+          <li>JWT authentication and REST endpoints, packaged as a Docker container.</li>
+        </ul>
+        <div class="chips"><span>Spring Boot</span><span>WebSocket</span><span>AI chatbot</span><span>MySQL</span><span>Docker</span></div>
+      </article>
+      <article class="card" data-tags="ai">
+        <span class="kind">NLP · Machine learning</span>
+        <h3>Smart AI Scam Filter</h3>
+        <p style="margin:0;color:var(--muted)">Classifies messages as scam or genuine.</p>
+        <ul>
+          <li>DistilBERT embeddings feed a Logistic Regression classifier.</li>
+          <li>Semantic text analysis picks up phishing, fraud and social-engineering patterns.</li>
+        </ul>
+        <div class="chips"><span>Python</span><span>NLP</span><span>DistilBERT</span><span>Scikit-learn</span></div>
+      </article>
+      <article class="card" data-tags="fullstack">
+        <span class="kind">Game · Java + JavaScript</span>
+        <h3>Flappy Bird</h3>
+        <p style="margin:0;color:var(--muted)">Interactive browser game.</p>
+        <ul><li>Gameplay logic and player interactions written in Java and JavaScript.</li></ul>
+        <div class="chips"><span>Java</span><span>JavaScript</span></div>
+      </article>
+    </div>
+    <p style="margin-top:16px;color:var(--muted)">Source code is on <a href="https://github.com/devvarun34-jpg" target="_blank" rel="noopener">GitHub</a>.</p>
+  </section>
+
+  <section id="lab">
+    <p class="label">AI lab</p>
+    <h2>Two things to click on</h2>
+    <div class="lab">
+      <div class="panel">
+        <h3>Scam message checker</h3>
+        <p class="note">An illustration of the idea in my scam filter project. This demo scores keywords in your browser. The real project uses DistilBERT embeddings and Logistic Regression in Python.</p>
+        <label for="msg" class="note">Type or pick a message</label>
+        <textarea id="msg" spellcheck="false">Your bank account will be blocked today. Share the OTP and click the link to complete KYC.</textarea>
+        <div class="samples">
+          <button type="button" data-s="Your bank account will be blocked today. Share the OTP and click the link to complete KYC.">scam sample</button>
+          <button type="button" data-s="Congratulations! You won a lottery prize of Rs 50,00,000. Pay a small fee to claim now.">prize sample</button>
+          <button type="button" data-s="Hey, are we still meeting at the library at 5 to work on the project report?">normal sample</button>
+        </div>
+        <div class="meter" aria-hidden="true"><i id="bar"></i></div>
+        <p class="verdict" id="verdict">Risk: low</p>
+        <p class="out" id="hl"></p>
+      </div>
+      <div class="panel">
+        <h3>How the AI chat app fits together</h3>
+        <p class="note">Click a layer to see what it does.</p>
+        <div class="flow" id="flow" role="group" aria-label="Chat application layers">
+          <button class="node" type="button" data-k="client" aria-pressed="true">Browser client</button>
+          <button class="node" type="button" data-k="api" aria-pressed="false">REST + WebSocket</button>
+          <button class="node" type="button" data-k="auth" aria-pressed="false">JWT auth</button>
+          <button class="node" type="button" data-k="ai" aria-pressed="false">AI chatbot</button>
+          <button class="node" type="button" data-k="db" aria-pressed="false">MySQL</button>
+          <button class="node" type="button" data-k="docker" aria-pressed="false">Docker</button>
+        </div>
+        <div class="detail" id="detail" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <p class="label">Skills</p>
+    <h2>Explore my stack</h2>
+    <div class="filters" role="group" aria-label="Skill categories" id="cats"></div>
+    <div class="skillwrap">
+      <div class="chipgrid" id="chips"></div>
+      <div class="panel"><div id="sk"></div></div>
+    </div>
+    <p class="interest">Currently interested in LLM-powered applications, retrieval-augmented generation and AI agents.</p>
+  </section>
+
+  <section id="education">
+    <p class="label">Education and activities</p>
+    <h2>Background</h2>
+    <div>
+      <div class="row"><span class="when">2023 – 2027</span><div><b>B.Tech, Information Technology</b><span class="sub">Bharati Vidyapeeth College of Engineering, Pune</span></div></div>
+      <div class="row"><span class="when">2022</span><div><b>ISC (Class XII), 92%</b><span class="sub">City Montessori School, Lucknow</span></div></div>
+      <div class="row"><span class="when">2020</span><div><b>ICSE (Class X), 87%</b><span class="sub">City Montessori School, Lucknow</span></div></div>
+      <div class="row"><span class="when">Certifications</span><div><b>NPTEL, Database Management Systems</b><span class="sub">Data Analytics Certification</span></div></div>
+      <div class="row"><span class="when">Campus</span><div><b>Co-Head, Vaaqif (college band)</b><span class="sub">Member, IT Student Association and Artcircle Committee</span></div></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <p class="label">Contact</p>
+    <h2>Hiring for a 2027 internship or graduate role? Write to me.</h2>
+    <div class="contact">
+      <div><span id="mail">devvarun34@gmail.com</span><button class="copy" id="copyBtn" type="button">copy</button></div>
+      <a href="https://linkedin.com/in/varundev63" target="_blank" rel="noopener">linkedin.com/in/varundev63</a>
+      <a href="https://github.com/devvarun34-jpg" target="_blank" rel="noopener">github.com/devvarun34-jpg</a>
+    </div>
+  </section>
+  <footer>© 2026 Varun Dev</footer>
+</div>
+
+<script>
+(function(){
+  var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $=function(id){return document.getElementById(id)};
+
+  /* theme toggle */
+  var root=document.documentElement;
+  try{var t=localStorage.getItem('theme');if(t)root.setAttribute('data-theme',t)}catch(e){}
+  $('theme').addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')?root.getAttribute('data-theme')==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var n=dark?'light':'dark';root.setAttribute('data-theme',n);
+    try{localStorage.setItem('theme',n)}catch(e){}
+    readColors();
+  });
+
+  /* role typewriter */
+  var roles=['Full Stack Developer','Applied AI / ML Builder','Spring Boot Backend Engineer','React Frontend Developer'];
+  var ri=0,ci=roles[0].length,del=true,el=$('role');
+  if(!RM){(function tick(){
+    var r=roles[ri];
+    if(del){ci--;if(ci<=0){del=false;ri=(ri+1)%roles.length;ci=0}}
+    else{ci++;if(ci>=roles[ri].length){del=true;el.textContent=roles[ri];return setTimeout(tick,1800)}}
+    el.textContent=roles[ri].slice(0,ci)||'\u00A0';
+    setTimeout(tick,del?35:70);
+  })()}
+
+  /* neural-network canvas */
+  var cv=$('net'),cx=cv.getContext('2d'),nodes=[],W=0,H=0,mx=-999,my=-999,colA='#0b6b58',colL='#d5dedc';
+  function readColors(){var s=getComputedStyle(root);colA=s.getPropertyValue('--accent').trim();colL=s.getPropertyValue('--muted').trim()}
+  function size(){
+    var r=cv.parentNode.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2);
+    W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0);
+    var n=Math.max(18,Math.min(60,Math.round(W*H/16000)));nodes=[];
+    for(var i=0;i<n;i++)nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35});
+  }
+  function draw(){
+    cx.clearRect(0,0,W,H);cx.globalAlpha=1;
+    for(var i=0;i<nodes.length;i++){
+      var a=nodes[i];
+      if(!RM){a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1;
+        var dx=mx-a.x,dy=my-a.y,dm=Math.sqrt(dx*dx+dy*dy);if(dm<140&&dm>1){a.x+=dx/dm*.6;a.y+=dy/dm*.6}}
+      for(var j=i+1;j<nodes.length;j++){
+        var b=nodes[j],ddx=a.x-b.x,ddy=a.y-b.y,d=Math.sqrt(ddx*ddx+ddy*ddy);
+        if(d<120){cx.globalAlpha=(1-d/120)*.35;cx.strokeStyle=colL;cx.lineWidth=1;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke()}
+      }
+      cx.globalAlpha=.8;cx.fillStyle=colA;cx.beginPath();cx.arc(a.x,a.y,2.2,0,6.283);cx.fill();
+    }
+    if(!RM)requestAnimationFrame(draw);
+  }
+  readColors();size();draw();
+  window.addEventListener('resize',function(){size();if(RM)draw()});
+  cv.parentNode.addEventListener('pointermove',function(e){var r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
+  cv.parentNode.addEventListener('pointerleave',function(){mx=my=-999});
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readColors);
+
+  /* project filter */
+  var fb=document.querySelectorAll('.f[data-f]'),cards=document.querySelectorAll('#plist .card');
+  fb.forEach(function(b){b.addEventListener('click',function(){
+    fb.forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    var f=b.dataset.f;
+    cards.forEach(function(c){c.hidden=!(f==='all'||c.dataset.tags.split(' ').indexOf(f)>-1)});
+  })});
+
+  /* scam heuristic demo */
+  var rules=[['otp',30],['kyc',25],['blocked',25],['click the link',25],['click link',25],['lottery',30],['prize',25],['congratulations',15],['claim',15],['urgent',20],['pay a small fee',30],['processing fee',25],['verify your account',25],['password',20],['share',8],['today',5],['free gift',20],['bank account',12]];
+  function esc(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+  function scan(){
+    var txt=$('msg').value,low=txt.toLowerCase(),score=0,out=esc(txt);
+    rules.forEach(function(r){if(low.indexOf(r[0])>-1){score+=r[1];
+      var re=new RegExp('('+r[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');out=out.replace(re,'<mark>$1</mark>')}});
+    score=Math.min(100,score);
+    var lvl=score>=60?'high':score>=30?'medium':'low';
+    $('bar').style.width=Math.max(4,score)+'%';
+    $('bar').style.background=lvl==='high'?'var(--bad)':lvl==='medium'?'var(--warn)':'var(--ok)';
+    $('verdict').textContent='Risk: '+lvl+' ('+score+'/100)';
+    $('hl').innerHTML=txt.trim()?out:'';
+  }
+  $('msg').addEventListener('input',scan);
+  document.querySelectorAll('.samples button').forEach(function(b){b.addEventListener('click',function(){$('msg').value=b.dataset.s;scan()})});
+  scan();
+
+  /* architecture explorer */
+  var arch={
+    client:['Browser client','Where users type and read messages. It calls the REST endpoints and keeps a WebSocket open for live updates.'],
+    api:['REST + WebSocket','REST endpoints handle accounts and history. A WebSocket channel pushes new messages to everyone in the conversation.'],
+    auth:['JWT auth','Each request carries a signed token, so the Spring Boot backend can verify who is calling without server-side sessions.'],
+    ai:['AI chatbot','The chatbot is part of the conversation flow, so a user can get an AI reply inside the same chat.'],
+    db:['MySQL','Stores users and messages so conversations persist between sessions.'],
+    docker:['Docker','The whole application is containerised, so it runs the same way on any machine or host.']
+  };
+  var nb=document.querySelectorAll('.node');
+  function showNode(k){nb.forEach(function(n){n.setAttribute('aria-pressed',n.dataset.k===k)});
+    $('detail').innerHTML='<b>'+arch[k][0]+'</b><p>'+arch[k][1]+'</p>'}
+  nb.forEach(function(n){n.addEventListener('click',function(){showNode(n.dataset.k)})});
+  showNode('client');
+
+  /* skill explorer */
+  var S={
+    'Frontend':[['HTML5 + CSS3','Page structure and responsive styling, including Bootstrap layouts.'],['JavaScript','Browser logic, API calls and the gameplay code in Flappy Bird.'],['React.js','Working knowledge. Components that integrate with REST APIs.'],['Bootstrap','Quick responsive layouts.']],
+    'Backend':[['Java','Main backend language. Used in FlowForge AI, the chat app and Flappy Bird.'],['Spring Boot','Foundation of FlowForge AI and the AI chat application.'],['Spring Security + JWT','Token-based authentication and secured endpoints in FlowForge AI and the chat app.'],['REST APIs','Designed with Entity, Repository, DTO, Service and Controller layers.'],['WebSocket','Real-time messaging in the AI chat application.'],['Python','Used for the scam filter and ML work.']],
+    'AI / ML':[['NLP','Semantic analysis of messages in the Smart AI Scam Filter.'],['DistilBERT','Embeddings used as features for scam classification.'],['Scikit-learn','Logistic Regression classifier on top of the embeddings.'],['Machine learning','Training and evaluating a text classifier.'],['AI chatbot integration','Chatbot built into the live chat application.']],
+    'Data + DevOps':[['MySQL / SQL','Relational storage for FlowForge AI and the chat app.'],['Docker','Containerised FlowForge AI and the chat app.'],['GitHub Actions','Automated workflows on GitHub.'],['Git + GitHub','Version control for all my projects.'],['Postman','API testing.'],['Jest','JavaScript unit testing.'],['Vercel','Frontend deployment.']],
+    'Core CS':[['OOP','Object-oriented design in Java.'],['Data structures + algorithms','Problem solving fundamentals.'],['DBMS','Coursework plus an NPTEL certification.']]
+  };
+  var cats=Object.keys(S),curCat=cats[0];
+  function drawCats(){var h=$('cats');h.innerHTML='';cats.forEach(function(c){var b=document.createElement('button');b.type='button';b.className='f';b.textContent=c;b.setAttribute('aria-pressed',c===curCat);b.onclick=function(){curCat=c;drawCats();drawChips(0)};h.appendChild(b)})}
+  function drawChips(sel){var g=$('chips');g.innerHTML='';S[curCat].forEach(function(s,i){var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=s[0];b.setAttribute('aria-pressed',i===sel);b.onclick=function(){drawChips(i)};g.appendChild(b)});
+    var s=S[curCat][sel];$('sk').innerHTML='<h3 style="font:700 1.15rem var(--display);margin:0 0 6px">'+s[0]+'</h3><p style="margin:0;color:var(--muted)">'+s[1]+'</p>'}
+  drawCats();drawChips(0);
+
+  /* copy email */
+  var b=$('copyBtn'),m=$('mail');
+  b.addEventListener('click',function(){
+    function done(t){b.textContent=t;setTimeout(function(){b.textContent='copy'},1500)}
+    function sel(){var r=document.createRange();r.selectNodeContents(m);var s=window.getSelection();s.removeAllRanges();s.addRange(r);done('selected')}
+    try{navigator.clipboard.writeText(m.textContent).then(function(){done('copied')},sel)}catch(e){sel()}
+  });
+})();
+</script>
+</body>
+</html>
